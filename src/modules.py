@@ -24,11 +24,12 @@ def setup():
 def goto(setup, data):
     getData = data['page']['main']
     setup.get(getData)
+    setup.maximize_window()
     
 def navigate(setup, data):
     element = setup.find_element(By.CSS_SELECTOR, data['page']['search'])
     element.click()
-    wait(setup, data)
+    wait(setup, data, "searchContainer")
     search = setup.find_element(By.ID, data['page']['searchMain'])
     search.send_keys("Python")
     
@@ -43,8 +44,37 @@ def navigate(setup, data):
         firstElement = hoverElements[0]
         hover = ActionChains(setup).move_to_element(firstElement)
         hover.click().perform()
-
-def wait(setup, data):
+    
+    wait(setup, data, "sidebar")
+    scroll(setup, -1000)
+    
+def wait(setup, data, locator):
     return WebDriverWait(setup, 10).until(EC.visibility_of_element_located(
-        (By.CLASS_NAME, data['page']['searchContainer'])
+        (By.CLASS_NAME, data['page'][f'{locator}'])
     ))
+
+def scroll(setup, scroll_amount: int):
+    return setup.execute_script(f"window.scrollBy(0, {scroll_amount});")
+    
+def menuLists(setup, data):
+    elements = setup.find_elements(By.CSS_SELECTOR, data['page']['list'])
+    for element in elements:
+        element.click()
+        pageScroll = setup.execute_script("return (window.innerHeight + window.scrollY) >= document.body.offsetHeight;")
+        scroll_to_bottom(setup)
+        sleep(3)
+        while not pageScroll:
+            scroll_to_bottom(setup)
+            
+        scroll_to_top(setup)
+        sleep(3)
+            
+        
+def scroll_to_bottom(setup):
+    setup.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+def is_scrollbar_at_bottom(setup):
+    return setup.execute_script("return (window.innerHeight + window.scrollY) >= document.body.offsetHeight;")
+
+def scroll_to_top(setup):
+    setup.execute_script("window.scrollTo(0, 0);")
