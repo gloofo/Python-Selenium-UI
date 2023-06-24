@@ -1,4 +1,6 @@
 page:
     main:                           https://playwright.dev/
     search:                         .DocSearch-Button-Placeholder
-     
+    searchMain:                     "docsearch-input"
+    searchContainer:                "DocSearch-SearchBar"
+    results:                        ".DocSearch-Dropdown-Container > .DocSearch-Hits:nth-child(1) .DocSearch-Hit"
