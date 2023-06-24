@@ -60,21 +60,3 @@ def menuLists(setup, data):
     elements = setup.find_elements(By.CSS_SELECTOR, data['page']['list'])
     for element in elements:
         element.click()
-        pageScroll = setup.execute_script("return (window.innerHeight + window.scrollY) >= document.body.offsetHeight;")
-        scroll_to_bottom(setup)
-        sleep(3)
-        while not pageScroll:
-            scroll_to_bottom(setup)
-            
-        scroll_to_top(setup)
-        sleep(3)
-            
-        
-def scroll_to_bottom(setup):
-    setup.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-
-def is_scrollbar_at_bottom(setup):
-    return setup.execute_script("return (window.innerHeight + window.scrollY) >= document.body.offsetHeight;")
-
-def scroll_to_top(setup):
-    setup.execute_script("window.scrollTo(0, 0);")
