@@ -1,4 +1,3 @@
-# python-selenium
-Automating using python and selenium
-_
-this is just my test project using pytest and selenium automation.
+### Python Selenium with Pytest
+
+- This is just a small project to test Pytest with Selenium Automation
