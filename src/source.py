@@ -1,14 +1,7 @@
-import pytest
-import yaml
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.chrome.options import Options
-from time import sleep
+#imports all from imports.py
+from src.imports import *
 
+#read and open yaml file for locators variable.
 @pytest.fixture
 def data():
     with open("resources/locators.yaml") as file:
@@ -16,12 +9,14 @@ def data():
 
     return r
 
+#Initialized webdriver
 @pytest.fixture(scope='function')
 def setup():
     print("TEST STARTED")
     yield webdriver.Chrome()
     print("TEST ENDED")
 
+#main method for test case.
 def goto(setup, data):
     getData = data['page']['main']
     setup.get(getData)
@@ -29,8 +24,10 @@ def goto(setup, data):
     
     navigate(setup, data)
     menuLists(setup, data)
-    
+
+#navigates through the page 
 def navigate(setup, data):
+    #search
     element = setup.find_element(By.CSS_SELECTOR, data['page']['search'])
     element.click()
     wait(setup, data, "searchContainer")
@@ -39,6 +36,7 @@ def navigate(setup, data):
     
     sleep(1)
     
+    #hover results until the end and go back to the first element then click.
     hoverElements = setup.find_elements(By.CSS_SELECTOR, data['page']['results'])
     for i in hoverElements:
         hover = ActionChains(setup).move_to_element(i)
@@ -50,19 +48,24 @@ def navigate(setup, data):
         hover.click().perform()
     
     wait(setup, data, "sidebar")
+    
+    #call scroll method
     scroll(setup, -1000)
     sleep(2)
     scroll(setup, 0)
-    
+
+#waits an element (locator) 
 def wait(setup, data, locator):
     
     return WebDriverWait(setup, 10).until(EC.visibility_of_element_located(
         (By.CLASS_NAME, data['page'][f'{locator}'])
     ))
 
+#scroll through the page scroll_amount value
 def scroll(setup, scroll_amount: int):
     return setup.execute_script(f"window.scrollBy(0, {scroll_amount});")
-    
+
+#clicks every page and save a screenshot
 def menuLists(setup, data):
     elements = setup.find_elements(By.CSS_SELECTOR, data['page']['list'])
     x = 0
@@ -75,7 +78,8 @@ def menuLists(setup, data):
         setup.save_screenshot(f"screenshots/capture {x}.png")
 
     setup.quit()
-        
+
+#scroll to the bottom until the page data is all loaded    
 def scrolltoBottom(setup):
     h = setup.execute_script("return document.body.scrollHeight")
     while True:
