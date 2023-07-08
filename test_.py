@@ -1,4 +1,4 @@
-from src.modules import *
+from src.source import *
 
 def test_page(setup, data):
     goto(setup, data)
