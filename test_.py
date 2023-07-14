@@ -1,4 +1,4 @@
 from src.source import *
 
-def test_page(setup, data):
-    goto(setup, data)
+def test_playwrightdev(setup, data):
+    main(setup, data)

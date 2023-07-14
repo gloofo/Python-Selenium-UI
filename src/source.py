@@ -17,7 +17,7 @@ def setup():
     print("TEST ENDED")
 
 #main method for test case.
-def goto(setup, data):
+def main(setup, data):
     getData = data['page']['main']
     setup.get(getData)
     setup.maximize_window()
@@ -33,7 +33,6 @@ def navigate(setup, data):
     wait(setup, data, "searchContainer")
     search = setup.find_element(By.ID, data['page']['searchMain'])
     search.send_keys("Python")
-    
     sleep(1)
     
     #hover results until the end and go back to the first element then click.
@@ -46,6 +45,7 @@ def navigate(setup, data):
         firstElement = hoverElements[0]
         hover = ActionChains(setup).move_to_element(firstElement)
         hover.click().perform()
+        assert setup.current_url == "https://playwright.dev/docs/languages#python"
     
     wait(setup, data, "sidebar")
     
