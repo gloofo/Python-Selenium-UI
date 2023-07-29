@@ -14,11 +14,11 @@ from source import *
 =================================================================================
 '''
 
-def test_Go_To_Main_Page(setup):
+def test_Go_to_main_page(setup):
     mainPage(setup)
 
-def test_Python_Search(setup):
+def test_Python_search(setup):
     navigate(setup)
     
-def test_Getting_Started_Docs(setup):
+def test_Getting_started_docs(setup):
     menuLists(setup)

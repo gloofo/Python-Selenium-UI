@@ -1,6 +1,5 @@
 import pytest
 import yaml
-import requests
 import telepot
 import os
 from selenium import webdriver

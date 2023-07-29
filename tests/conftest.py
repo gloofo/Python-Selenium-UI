@@ -33,9 +33,9 @@ def pytest_runtest_logreport(report):
         status = report.outcome
         
         if status == "failed":
-            results.append(f"❌ *FAILED* \\- {name} \n")
+            results.append(f"{name}: *FAILED* ⭕️")
         else:
-            results.append(f"✅ *PASSED* \\- {name} \n")
+            results.append(f"{name}: *PASSED* ✅")
 
 #sends test status reports to Telegram       
 def pytest_terminal_summary(terminalreporter, exitstatus, config):
