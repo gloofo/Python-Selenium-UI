@@ -7,7 +7,7 @@ sys.path.append(src_path)
 from imports import *
 from source import *
 
-results = []
+results = ["▬ Automation Test Summary Info ▬\n"]
 
 #Initialized webdriver
 @pytest.fixture(scope='session')
@@ -25,7 +25,6 @@ def setup():
     
     yield driver
     print("TEST TEARDOWN")
-    driver.quit()
 
 #get test status
 def pytest_runtest_logreport(report):
@@ -37,7 +36,8 @@ def pytest_runtest_logreport(report):
             results.append(f"{name}: *FAILED* ❌")
         else:
             results.append(f"{name}: *PASSED* ✅")  
-
+    
 #Send message to Telegram
 def pytest_terminal_summary(terminalreporter, exitstatus, config):
+    results.append("\nDevice Name: " + socket.gethostname())
     return send_tg_message("\n".join(results))

@@ -16,6 +16,9 @@ from source import *
 
 def test_Go_to_main_page(setup):
     mainPage(setup)
+    
+def test_Icons_Hover(setup):
+    hoverIco(setup)
 
 def test_Python_search(setup):
     navigate(setup)

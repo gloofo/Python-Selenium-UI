@@ -6,3 +6,4 @@ page:
     results:                        ".DocSearch-Dropdown-Container > .DocSearch-Hits:nth-child(1) .DocSearch-Hit"
     sidebar:                        "sidebar_njMd"
     list:                           ".theme-doc-sidebar-item-category:first-child ul .menu__list-item"
+    logos:                          ".logosList_zAAF li"

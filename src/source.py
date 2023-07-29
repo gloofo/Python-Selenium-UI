@@ -1,6 +1,5 @@
-#imports all from imports.py
 from imports import *
-    
+
 #read and open yaml file for locators variable.
 def data():
     with open("resources/locators.yaml") as file:
@@ -35,21 +34,9 @@ def navigate(setup):
     
     wait(setup, "sidebar")
     
-    #call scroll method
     scroll(setup, -1000)
     sleep(2)
     scroll(setup, 0)
-    
-#waits an element (locator) 
-def wait(setup, locator):
-    
-    return WebDriverWait(setup, 10).until(EC.visibility_of_element_located(
-        (By.CLASS_NAME, data()['page'][f'{locator}'])
-    ))
-
-#scroll through the page scroll_amount value
-def scroll(setup, scroll_amount: int):
-    return setup.execute_script(f"window.scrollBy(0, {scroll_amount});")
 
 #clicks every page and save a screenshot
 def menuLists(setup):
@@ -66,6 +53,33 @@ def menuLists(setup):
         
     setup.quit()
 
+def hoverIco(setup):
+    scroll(setup, 3000)
+    elements = setup.find_elements(By.CSS_SELECTOR, data()['page']['logos'])
+    for x in elements:
+        hover = ActionChains(setup).move_to_element(x)
+        sleep(1)
+        hover.perform()
+        
+    scroll(setup, 0)
+    
+'''
+===========================================================================
+================================ HELPERS ==================================
+===========================================================================
+'''
+
+#waits an element (locator) 
+def wait(setup, locator):
+    return WebDriverWait(setup, 10).until(EC.visibility_of_element_located(
+        (By.CLASS_NAME, data()['page'][f'{locator}'])
+    ))
+    
+#scroll through the page scroll_amount value
+def scroll(setup, scroll_amount: int):
+    
+    return setup.execute_script(f"window.scrollTo(0, {scroll_amount});")
+
 #scroll to the bottom until the page data is all loaded    
 def scrolltoBottom(setup):
     height = setup.execute_script("return document.body.scrollHeight")
@@ -76,7 +90,8 @@ def scrolltoBottom(setup):
         if current_height == height:
             break
         height = current_height
-    
+        
+#send to telegram
 def send_tg_message(message):
         token = os.environ.get("token", "")
         Id = os.environ.get("Id", "")

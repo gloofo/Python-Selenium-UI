@@ -13,3 +13,4 @@ from selenium.webdriver.chrome.options import Options
 from time import sleep
 from bs4 import BeautifulSoup
 from PIL import Image
+import socket
