@@ -1,5 +1,5 @@
 #imports all from imports.py
-from src.imports import *
+from imports import *
 
 #read and open yaml file for locators variable.
 def data():
@@ -8,26 +8,24 @@ def data():
     return load
 
 #Initialized webdriver
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='session')
 def setup():
     options = Options()
     options.add_argument("--hide-scrollbars")
     options.add_argument("--disable=infobars")
-    
-    print("TEST STARTED")
-    yield webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(options=options)
+    driver.maximize_window()
+    yield driver
     print("TEST ENDED")
-
+    
 #main method for test case.
 def main(setup):
     getData = data()['page']['main']
     setup.get(getData)
-    setup.maximize_window()
-    
     navigate(setup)
-    menuLists(setup)
+    #menuLists(setup)
 
-#navigates through the page 
+#navigates through the page
 def navigate(setup):
     #search
     element = setup.find_element(By.CSS_SELECTOR, data()['page']['search'])
@@ -92,6 +90,10 @@ def scrolltoBottom(setup):
         if nh == h:
             break
         h = nh
-        
     
-    
+def send_tg_message(message):
+        token = os.environ.get("token", "")
+        Id = os.environ.get("Id", "")
+        bot = telepot.Bot(token)
+        bot.sendMessage(Id, message, parse_mode='MarkdownV2')
+
