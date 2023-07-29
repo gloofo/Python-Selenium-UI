@@ -14,8 +14,11 @@ from source import *
 =================================================================================
 '''
 
-def test_GoTo(setup):
-    main(setup)
+def test_Go_To_Main_Page(setup):
+    mainPage(setup)
 
-def test_Navigate(setup):
+def test_Python_Search(setup):
+    navigate(setup)
+    
+def test_Getting_Started_Docs(setup):
     menuLists(setup)

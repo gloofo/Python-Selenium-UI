@@ -7,23 +7,9 @@ def data():
         load =  yaml.load(file, Loader=yaml.FullLoader)
     return load
 
-#Initialized webdriver
-@pytest.fixture(scope='session')
-def setup():
-    options = Options()
-    options.add_argument("--hide-scrollbars")
-    options.add_argument("--disable=infobars")
-    driver = webdriver.Chrome(options=options)
-    driver.maximize_window()
-    yield driver
-    print("TEST ENDED")
-    
 #main method for test case.
-def main(setup):
-    getData = data()['page']['main']
-    setup.get(getData)
-    navigate(setup)
-    #menuLists(setup)
+def mainPage(setup):
+    assert setup.current_url == "https://playwright.dev/"
 
 #navigates through the page
 def navigate(setup):
