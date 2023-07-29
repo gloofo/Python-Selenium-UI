@@ -1,6 +1,6 @@
 #imports all from imports.py
 from imports import *
-
+    
 #read and open yaml file for locators variable.
 def data():
     with open("resources/locators.yaml") as file:
@@ -13,7 +13,7 @@ def mainPage(setup):
 
 #navigates through the page
 def navigate(setup):
-    #search
+    #search   
     element = setup.find_element(By.CSS_SELECTOR, data()['page']['search'])
     element.click()
     wait(setup, "searchContainer")
@@ -39,7 +39,8 @@ def navigate(setup):
     scroll(setup, -1000)
     sleep(2)
     scroll(setup, 0)
-
+    assert 1 + 2 == 4
+    
 #waits an element (locator) 
 def wait(setup, locator):
     
@@ -63,23 +64,22 @@ def menuLists(setup):
         x += 1
         setup.execute_script(f"window.scrollTo(0, 0);")
         setup.save_screenshot(f"screenshots/capture {x}.png")
-
+        
     setup.quit()
 
 #scroll to the bottom until the page data is all loaded    
 def scrolltoBottom(setup):
-    h = setup.execute_script("return document.body.scrollHeight")
+    height = setup.execute_script("return document.body.scrollHeight")
     while True:
         setup.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         sleep(2)
-        nh = setup.execute_script("return document.body.scrollHeight")
-        if nh == h:
+        current_height = setup.execute_script("return document.body.scrollHeight")
+        if current_height == height:
             break
-        h = nh
+        height = current_height
     
 def send_tg_message(message):
         token = os.environ.get("token", "")
         Id = os.environ.get("Id", "")
         bot = telepot.Bot(token)
         bot.sendMessage(Id, message, parse_mode='MarkdownV2')
-

@@ -25,6 +25,7 @@ def setup():
     
     yield driver
     print("TEST TEARDOWN")
+    driver.quit()
 
 #get test status
 def pytest_runtest_logreport(report):
@@ -33,10 +34,10 @@ def pytest_runtest_logreport(report):
         status = report.outcome
         
         if status == "failed":
-            results.append(f"{name}: *FAILED* ⭕️")
+            results.append(f"{name}: *FAILED* ❌")
         else:
-            results.append(f"{name}: *PASSED* ✅")
+            results.append(f"{name}: *PASSED* ✅")  
 
-#sends test status reports to Telegram       
+#Send message to Telegram
 def pytest_terminal_summary(terminalreporter, exitstatus, config):
     return send_tg_message("\n".join(results))
