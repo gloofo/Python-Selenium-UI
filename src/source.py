@@ -39,7 +39,6 @@ def navigate(setup):
     scroll(setup, -1000)
     sleep(2)
     scroll(setup, 0)
-    assert 1 + 2 == 4
     
 #waits an element (locator) 
 def wait(setup, locator):
